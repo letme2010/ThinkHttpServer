@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html class=" plat_win arch_64"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+
+var  wsServer = 'ws://127.0.0.1:9528/websocket'; 
+var  websocket = new WebSocket(wsServer); 
+websocket.onopen = function (evt) { onOpen(evt) }; 
+websocket.onclose = function (evt) { onClose(evt) }; 
+websocket.onmessage = function (evt) { onMessage(evt) }; 
+websocket.onerror = function (evt) { onError(evt) }; 
+
+function onOpen(evt) { 
+	console.log("Connected to WebSocket server."); 
+}
+
+function onClose(evt) { 
+	console.log("Disconnected"); 
+} 
+
+function onMessage(evt) { 
+	console.log('Retrieved data from server: ' + evt.data); 
+}
+
+function onError(evt) { 
+	console.log('Error occured: ' + evt.data); 
+}
+
+</script>
+<title>Android View Firebug</title>
+	<body>
+		Hello gay!
+	</body>
+</html>
