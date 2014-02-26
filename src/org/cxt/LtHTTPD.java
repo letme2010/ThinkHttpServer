@@ -1,13 +1,17 @@
 
-package com.example.thinkhttpserver;
+package org.cxt;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.net.URL;
+
+import org.cxt.NanoHTTPD.Response.Status;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.view.View;
+import android.view.ViewDebug;
 
-import com.example.thinkhttpserver.NanoHTTPD.Response.Status;
 
 public class LtHTTPD extends NanoHTTPD {
 
@@ -22,6 +26,8 @@ public class LtHTTPD extends NanoHTTPD {
         Bitmap getTextImage();
 
         String getViewHieracryJSON();
+
+		Bitmap getBitmapByViewHashCode(Integer valueOf);
 
     }
 
@@ -39,11 +45,19 @@ public class LtHTTPD extends NanoHTTPD {
 
         System.out.println("LTHTTPD:" + method + " '" + uri + "' ");
 
-        if (uri.lastIndexOf(".png") > 0) {
+        if (uri.endsWith("png")) {
             // request image.
+        	
+        	//url like : http://hostname/viewSnap/12312312.png
 
-            Bitmap bitmap = this.mDelegate.getTextImage();
+//            Bitmap bitmap = this.mDelegate.getTextImage();
 
+        	int indexOfHashCodeStart = uri.indexOf("viewSnap") + "viewSnap".length() + 1;
+        	int indexOfPngSuffix = uri.indexOf("png") - 1;
+        	String hashCode = uri.substring(indexOfHashCodeStart, indexOfPngSuffix);
+         	
+        	Bitmap bitmap = this.mDelegate.getBitmapByViewHashCode(Integer.valueOf(hashCode));
+        	
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             bitmap.compress(CompressFormat.PNG, 0 /* ignored for PNG */, bos);
             byte[] bitmapdata = bos.toByteArray();
