@@ -3,14 +3,18 @@ package org.cxt;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.net.URL;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 
 import org.cxt.NanoHTTPD.Response.Status;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.ViewDebug;
+import android.view.ViewGroup;
 
 
 public class LtHTTPD extends NanoHTTPD {
@@ -27,7 +31,7 @@ public class LtHTTPD extends NanoHTTPD {
 
         String getViewHieracryJSON();
 
-		Bitmap getBitmapByViewHashCode(Integer valueOf);
+		Bitmap getBitmapByViewHashCode(int aHashCode);
 
     }
 
@@ -58,8 +62,12 @@ public class LtHTTPD extends NanoHTTPD {
          	
         	Bitmap bitmap = this.mDelegate.getBitmapByViewHashCode(Integer.valueOf(hashCode));
         	
+        	if (null == bitmap) {
+        		return null;
+        	}
+        	
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bitmap.compress(CompressFormat.PNG, 0 /* ignored for PNG */, bos);
+            bitmap.compress(CompressFormat.PNG, 100 /* ignored for PNG */, bos);
             byte[] bitmapdata = bos.toByteArray();
             ByteArrayInputStream bs = new ByteArrayInputStream(bitmapdata);
 
@@ -83,5 +91,5 @@ public class LtHTTPD extends NanoHTTPD {
 
         return ret;
     }
-
+  
 }
